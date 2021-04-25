@@ -1,16 +1,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
-import firebase from 'firebase/app';
-
-import 'firebase/auth';
-import { useAuth } from '../../services/auth';
-
-import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
-export default function Sidebar({ userImg, userName, tokens }) {
+export default function Sidebar({ tokens }) {
 
   const [collapseShow, setCollapseShow] = useState("hidden");
   const router = useRouter();
@@ -33,7 +26,7 @@ export default function Sidebar({ userImg, userName, tokens }) {
               <NotificationDropdown />
             </li> */}
             <li className="inline-block relative">
-              <UserDropdown userImg={userImg} />
+              <UserDropdown />
             </li>
           </ul>
           {/* Collapse */}
@@ -52,7 +45,7 @@ export default function Sidebar({ userImg, userName, tokens }) {
                       href="#pablo"
                       className="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0"
                     >
-                      Spring Rolls
+                      Open Letter
                     </a>
                   </Link>
                 </div>

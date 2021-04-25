@@ -1,4 +1,6 @@
 import firebase from 'firebase';
+import "firebase/auth";
+import firebaseClient from "firebase/app";
 
 
 const FIREBASE_CONFIG = {
@@ -8,8 +10,11 @@ const FIREBASE_CONFIG = {
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 }
 
-export default function firebaseClient() {
-    if (!firebase.apps.length) {
-        firebase.initializeApp(FIREBASE_CONFIG);
-    }
+if (!firebase.apps.length) {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    // firebaseClient
+    //     .auth()
+    //     .setPersistence(firebaseClient.auth.Auth.Persistence.SESSION);
 }
+
+export { firebaseClient };

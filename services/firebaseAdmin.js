@@ -1,16 +1,17 @@
-import * as admin from 'firebase-admin';
+import * as firebaseAdmin from 'firebase-admin';
 import serviceAccount from '../secrets.json';
 
-const verifyIdTokens = async (token) => {
-    if (!admin.apps.length) {
-        admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount),
-            databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DB_URL,
-        });
-    }
-    return admin.auth().verifyIdToken(token).catch((error) => {
-        throw error;
-    })
+
+const privateKey = process.env.PRIVATE_KEY;
+const clientEmail = process.env.CLIENT_EMAIL;
+const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROCJECT_ID;
+
+if (!firebaseAdmin.apps.length) {
+    firebaseAdmin.initializeApp({
+        credential: firebaseAdmin.credential.cert(serviceAccount),
+        databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DB_URL,
+    });
 }
-export default verifyIdTokens;
+
+export { firebaseAdmin };
 

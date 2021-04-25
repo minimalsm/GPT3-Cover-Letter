@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from "react";
 import firebase from 'firebase/app';
-import firebaseClient from '../../services/firebaseClient';
+import { firebaseClient } from '../../services/firebaseClient';
+import { useRouter } from 'next/router'
+
 import 'firebase/auth';
 
 import toast from "../../components/Toast";
@@ -12,9 +14,8 @@ import Link from "next/link";
 import Auth from "layouts/Auth.js";
 
 export default function Login() {
-
+  const router = useRouter();
   const provider = new firebase.auth.GoogleAuthProvider();
-  firebaseClient();
 
   const notify = useCallback((type, message) => {
     toast({ type, message });
@@ -34,7 +35,7 @@ export default function Login() {
       if (!user) {
         throw new Error('There was an issue authorizing');
       } else {
-        window.location.href = '/user/dashboard';
+        router.push('/dashboard')
       }
     } catch (error) {
       console.log(error.message);
@@ -138,7 +139,7 @@ export default function Login() {
                       onClick={
                         async () => {
                           await firebase.auth().signInWithEmailAndPassword(email, pass).then(function () {
-                            window.location.href = '/user/dashboard';
+                            router.push('/dashboard')
                           }).catch(function (error) {
                             console.log(error.message);
                             notify("error", error.message);
@@ -150,29 +151,30 @@ export default function Login() {
                     </button>
                   </div>
                 </form>
-              </div>
-            </div>
-            <div className="flex flex-wrap mt-6 relative">
+                <div className="flex flex-wrap mt-6 relative">
 
-              <div className="w-1/2">
-                <Link href="/auth/passwordreset">
-                  <a
-                    href="#pablo"
-                    className="text-md font-semibold text-gray-700 underline"
-                  >
-                    <small>Forgot password?</small>
-                  </a>
-                </Link>
-              </div>
-              <div className="w-1/2 text-right">
-                <p className="text-sm font-semibold text-gray-700">Don't have an account?</p>
-                <Link href="/auth/register">
-                  <a href="#" className="text-md font-semibold text-gray-700 underline">
-                    <small>Sign up here</small>
-                  </a>
-                </Link>
+                  <div className="w-1/2">
+                    <Link href="/auth/passwordreset">
+                      <a
+                        href="#pablo"
+                        className="text-md font-semibold text-gray-700 underline"
+                      >
+                        <small>Forgot password?</small>
+                      </a>
+                    </Link>
+                  </div>
+                  <div className="w-1/2 text-right">
+                    <p className="text-sm font-semibold text-gray-700">Don't have an account?</p>
+                    <Link href="/auth/register">
+                      <a href="#" className="text-md font-semibold text-gray-700 underline">
+                        <small>Sign up here</small>
+                      </a>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

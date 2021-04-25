@@ -11,22 +11,22 @@ export default function Navbar(props) {
       <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-            <div className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded    uppercase inline-flex items-center ">
+            <div className="bg-white active:bg-gray-100 text-gray-800 font-normal  rounded inline-flex items-center ">
               <Link href="/">
-                <a className=" text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase"
+                <a className=" text-lg font-bold leading-relaxed inline-block mr-4  whitespace-no-wrap uppercase"
                   href="#">
                   <img
                     alt="..."
-                    className="w-10 mr-1 "
-                    src={require("assets/img/spring-rolls-svg.svg")}
+                    className="h-20 mr-1 "
+                    src={require("assets/img/open-letter.jpg")}
                   />
                 </a>
               </Link>
               <Link href="/">
-                <a className=" text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase"
+                <a className=" text-4xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap "
                   href="#">
-                  Spring Rolls
-                                </a>
+                  OpenLetter.ai
+                </a>
               </Link>
             </div>
             <button

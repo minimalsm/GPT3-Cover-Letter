@@ -29,7 +29,7 @@ export default function Index() {
                   Efficiently.
               </h2>
                 <p className="mt-4 text-lg leading-relaxed text-gray-600">
-                  Spring Rolls helps you automatically creates modern, job application focused cover letters. We make it easy to get your dream job or internship.
+                  Open Letter helps you automatically creates modern, job application focused cover letters. We make it easy to get your dream job or internship.
               </p>
                 <div className="mt-12 flex justify-center">
                   <Link href="/login">

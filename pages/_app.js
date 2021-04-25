@@ -52,7 +52,7 @@ export default class MyApp extends App {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
-          <title>Spring Rolls: Generate Cover Letters with AI</title>
+          <title>Open Letter: Generate Cover Letters with AI</title>
         </Head>
         <Layout>
           <AuthProvider>

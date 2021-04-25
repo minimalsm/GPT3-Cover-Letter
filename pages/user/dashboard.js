@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import firebase from 'firebase/app';
 import 'firebase/auth';
 // components
 import NavBar from 'components/Navbars/IndexNavbar';
@@ -8,11 +7,13 @@ import FooterAdmin from "components/Footers/FooterAdmin.js";
 // layout for page
 import { useAuth } from '../../services/auth';
 // Firebase Admin and cookies
-import verifyIdTokens from '../../services/firebaseAdmin';
+import { firebaseAdmin } from '../../services/firebaseAdmin';
+import { firebaseClient } from "../../services/firebaseClient";
+
 import nookies from 'nookies';
 
 
-const Dashboard = ({ tokenName, tokenUserImg, tokenUid, tokenEmail }) => {
+const Dashboard = ({ tokenEmail }) => {
 
   const [data, setData] = useState({ text: '' });
   const [query, setQuery] = useState('');
@@ -30,10 +31,10 @@ const Dashboard = ({ tokenName, tokenUserImg, tokenUid, tokenEmail }) => {
         setIsLoading(true);
         const res = await fetch(`../api/openai`, {
           body: JSON.stringify({
-            name: search
+            job_title: search
           }),
           headers: {
-            'Contnet-Type': 'application/json'
+            'Content-Type': 'application/json'
           },
           method: 'POST'
         })
@@ -70,7 +71,7 @@ const Dashboard = ({ tokenName, tokenUserImg, tokenUid, tokenEmail }) => {
   }, [currentTokens])
 
   const removeTokens = async () => {
-    const reducedTokens = currentTokens - 500;
+    const reducedTokens = currentTokens - 1;
     setTokens(reducedTokens);
     const res = await fetch(`http://localhost:3000/api/removetokens`, {
       body: JSON.stringify({
@@ -92,7 +93,7 @@ const Dashboard = ({ tokenName, tokenUserImg, tokenUid, tokenEmail }) => {
       {/* <HeaderStats /> */}
       <NavBar />
       <div className="mt-18">
-        <Sidebar fixed userImg={tokenUserImg} userName={tokenName} tokens={currentTokens} />
+        <Sidebar fixed tokens={currentTokens} />
         <div className="md:pt-32 sm:pt-96 relative flex flex-col  items-center justify-center m-auto md:ml-64 bg-gray-300 ">
           <div className="relative px-4 py-3 flex flex-col md:flex-row break-words bg-white w-full h-auto mb-6 shadow-lg rounded">
 
@@ -139,25 +140,25 @@ const Dashboard = ({ tokenName, tokenUserImg, tokenUid, tokenEmail }) => {
             </div>
 
             {/* OUTPUT */}
-            <div className="flex flex-col h-auto w-full md:w-1/2 items-center space-between align-center">
+            <div className="flex flex-col px-4 py-4 h-auto w-full md:w-1/2 items-center space-between align-center">
               <h1 className="uppercase text-xl text-black-500 mb-1 font-bold">Generated Cover Letter</h1>
 
-              <div className="output h-500-px w-full bg-gray-300 rounded">
+              <div className="output h-auto w-full bg-gray-300 rounded">
                 {isLoading ? (
                   <h5>Loading...</h5>
                 ) : (
-                  <span>{data.text}</span>
+                  <span className="p-4">{data.text}</span>
                 )}
               </div>
               <div className="flex flex-row w-full">
 
-                <button className="bg-blue-400 active:bg-blue-100 text-white font-normal w-1/2 px-6 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md mx-2 my-2 font-bold text-xs ease-linear transition-all duration-150" type="button" o>
+                <button className="bg-blue-400 active:bg-blue-100 text-white font-normal w-1/2 px-6 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md mx-2 my-2 font-bold text-xs ease-linear transition-all duration-150" type="button">
                   <i className="fa fa-file"></i>  Save</button>
 
-                <button className="bg-green-400 active:bg-blue-100 text-white font-normal w-1/2 px-6 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md mx-2 my-2 font-bold text-xs ease-linear transition-all duration-150" type="button" o>
+                <button className="bg-green-400 active:bg-blue-100 text-white font-normal w-1/2 px-6 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md mx-2 my-2 font-bold text-xs ease-linear transition-all duration-150" type="button">
                   <i className="fa fa-file"></i>   Copy</button>
 
-                <button className="bg-yellow-500 active:bg-blue-100 text-white font-normal w-1/2 px-6 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md mx-2 my-2 font-bold text-xs ease-linear transition-all duration-150" type="button" o>
+                <button className="bg-yellow-500 active:bg-blue-100 text-white font-normal w-1/2 px-6 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md mx-2 my-2 font-bold text-xs ease-linear transition-all duration-150" type="button">
                   <i className="fa fa-file"></i>   Print</button>
 
               </div>
@@ -180,15 +181,14 @@ export default Dashboard;
 
 export async function getServerSideProps(ctx) {
   const cookies = nookies.get(ctx);
-  const token = await verifyIdTokens(cookies.token);
-  const { name, picture, uid, email } = token;
+  const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+  const { email } = token;
   return {
     props: {
-      tokenName: name,
-      tokenUserImg: picture,
-      tokenUid: uid,
       tokenEmail: email,
     }
   }
+
+
 }
 

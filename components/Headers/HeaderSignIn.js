@@ -1,15 +1,16 @@
 
 import React, { useState } from "react";
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { useAuth } from '../../services/auth';
 
 
 
 export default function HeaderSignIn() {
+    const router = useRouter();
+
     const [userLoggedIn, setLogin] = useState(false);
-    const user = useAuth();
     firebase.auth().onAuthStateChanged(function (user) {
         setLogin(!!user);
     });
@@ -22,7 +23,7 @@ export default function HeaderSignIn() {
                         onClick={
                             async () => {
                                 await firebase.auth().signOut().then(function () {
-                                    window.location.href = '/';
+                                    router.push('/');
                                 }).catch(function (error) {
                                     const message = error.message;
                                     console.log(message);

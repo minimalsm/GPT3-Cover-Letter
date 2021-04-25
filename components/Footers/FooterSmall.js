@@ -25,7 +25,7 @@ export default function FooterSmall(props) {
                     href="/"
                     className="text-white hover:text-gray-400 text-sm font-semibold block py-1 px-3"
                   >
-                    Spring Rolls
+                    Open Letter
                   </a>
                 </li>
 

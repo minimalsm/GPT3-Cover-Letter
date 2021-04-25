@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
 
 import nookies from 'nookies';
-import firebaseClient from './firebaseClient';
+import { firebaseClient } from './firebaseClient';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -9,7 +9,6 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
 
-    firebaseClient();
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -32,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     // // Forcing refresh of saved token every 10 mins
     useEffect(() => {
         const handle = setInterval(async () => {
-            const user = firebase.auth().currentUser;
+            const user = firebaseClient.auth().currentUser;
             if (user) await user.getIdToken(true);
             console.log("Refreshing Token at: " + Date.now());
 

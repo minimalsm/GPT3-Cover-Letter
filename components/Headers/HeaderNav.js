@@ -22,7 +22,7 @@ export default function HeaderNav() {
 
 
             {userLoggedIn ? (<li className="flex items-center">
-                <Link href="/user/dashboard">
+                <Link href="/dashboard">
                     <a href='#' className={
                         "font-bold px-4 py-2 rounded outline-none focus:outline-none  active:bg-gray-700 uppercase text-sm hover:shadow-lg ease-linear transition-all duration-150"
                     }>
